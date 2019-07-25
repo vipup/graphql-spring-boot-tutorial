@@ -62,8 +62,8 @@ public class GraphiqlCsrfEnabledTest {
         JsonNode parsedResponse = graphQLTestUtils.perform("graphql/pets.graphql");
         assertNotNull(parsedResponse);
         assertNotNull(parsedResponse.get("data"));
-        assertNotNull(parsedResponse.get("data").get("post"));
-        assertEquals("1", parsedResponse.get("data").get("post").get("id").asText());
+        assertNotNull(parsedResponse.get("data").get("pets"));
+        assertEquals("MAMMOTH", parsedResponse.get("data").get("pets").get(0).get("type").asText());
     }
     
     

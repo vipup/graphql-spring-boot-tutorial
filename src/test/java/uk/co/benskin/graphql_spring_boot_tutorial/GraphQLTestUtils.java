@@ -66,7 +66,8 @@ public class GraphQLTestUtils {
         HttpEntity<String> httpEntity = new HttpEntity<>(payload, headers);
         ResponseEntity<String> response = restTemplate.exchange("/graphql", HttpMethod.POST, httpEntity, String.class);
 
-        return parse(response.getBody());
+        String body = response.getBody();
+		return parse(body);
     }
 
 }
