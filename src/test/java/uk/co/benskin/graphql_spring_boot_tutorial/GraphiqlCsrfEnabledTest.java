@@ -8,6 +8,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.http.MediaType;
@@ -33,26 +35,43 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.oembedler.moon.graphiql.boot.GraphiQLAutoConfiguration;
 
 import graphql.schema.GraphQLFieldDefinition;
 import uk.co.benskin.graphql_spring_boot_tutorial.resolvers.Query;
 
-@WebAppConfiguration()
-@ContextConfiguration(classes = {   GraphiQLAutoConfiguration.class, GraphQLSpringBootTutorialApplication.class, Query.class })
-@ComponentScan("uk.co.benskin.graphql_spring_boot_tutorial")
+import static graphql.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+//@WebAppConfiguration()
+//  GraphiQLAutoConfiguration.class,GQLServletController.class  ,Query.class,GraphQLSpringBootTutorialApplication.class, GQLServletController
+@ContextConfiguration(classes = {  GraphiQLAutoConfiguration.class, GraphQLSpringBootTutorialApplication.class})
+@ComponentScan("uk.co.benskin.graphql_spring_boot_tutorial.resolvers")
 @RunWith(SpringRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GraphiqlCsrfEnabledTest {
 	private static final String GRAPHQL_API_PATH = "/graphql";
 	/** Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(GraphiqlCsrfEnabledTest.class);
- 
-
+    @Autowired
+    private GraphQLTestUtils graphQLTestUtils;
+    
+    @Test
+    public void get_pets() throws IOException {
+        JsonNode parsedResponse = graphQLTestUtils.perform("graphql/pets.graphql");
+        assertNotNull(parsedResponse);
+        assertNotNull(parsedResponse.get("data"));
+        assertNotNull(parsedResponse.get("data").get("post"));
+        assertEquals("1", parsedResponse.get("data").get("post").get("id").asText());
+    }
+    
+    
 	@Test
 	public void testGetBook() throws Exception {
 		String query = " { pets { type  age id name    } }";
 		ResultActions graphqlresultTmp = doGraphQLRequest(query);
-		graphqlresultTmp.andExpect(content().string("xx")).andExpect(status().isOk()).andExpect(content().string("xx"));
+		graphqlresultTmp.andExpect(status().isOk()).andExpect(content().string("xx"));
 		LOG.error("{}", graphqlresultTmp);
 	}
 
