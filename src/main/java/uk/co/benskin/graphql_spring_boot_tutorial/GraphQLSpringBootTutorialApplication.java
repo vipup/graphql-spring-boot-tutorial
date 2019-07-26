@@ -22,7 +22,7 @@ public class GraphQLSpringBootTutorialApplication extends SpringBootServletIniti
     }
     
     @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(GraphQLSpringBootTutorialApplication.class);
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) { 
+        return builder.sources(GraphQLSpringBootTutorialApplication.class).profiles("tomcat-dev");
     }
 }

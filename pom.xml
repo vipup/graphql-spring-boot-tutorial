@@ -95,7 +95,9 @@
 		<dependency>
 			<groupId>com.graphql-java</groupId>
 			<artifactId>graphiql-spring-boot-starter</artifactId>
-			<version>4.4.0</version>
+			<!-- vendor local <version>4.4.0</version>  -->
+			<!-- vendor @ CDN   -->
+			 <version>4.0.0.M1</version>
 		</dependency>
 
 

@@ -6,36 +6,18 @@ graphql:
 graphiql:
   enabled: true
   mapping: /graphiql
-  endpoint: /graphql
-  
-  
-  
-# vv. 5.x.x++ ??  
-#  endpoint
-#    graphql: /api/graphql
-#   cdn:
-#     enabled: true
-#     version: 0.12.0
-#graphql:
-#      servlet:
-#           mapping: /jsfiddle4j/graphql
-#           enabled: true
-#           corsEnabled: true
-           # if you want to @ExceptionHandler annotation for custom GraphQLErrors
-#           exception-handlers-enabled: true
-#           contextSetting: PER_REQUEST_WITH_INSTRUMENTATION
-#graphql:
-#  servlet:
-    #actuator-metrics: true
-#graphiql:
-  #enabled: true
-  #cdn:
-    #enabled: false    
-    
-#db proxy:@ eu.blky.js.jsfiddle4j.indexhtml.MvcConfiguration.servletRegistrationBean()
-# OAuth2 
-okta:  
-  oauth2:
-    issuer: https://dev-639040.okta.com/oauth2/default  
-    client-id: 0oau9cozcL57wlSAh356
-    client-secret: STG1zKbIBAzHSsNmueo3YrSGy2naI6I7wbAXpE2h
+  endpoint: /graphql  
+---
+spring:
+    profiles: tomcat-dev
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+#server:
+#   servlet:
+#      path: /sdfasfasdfadsfasdfasdfasfasf
+graphiql:
+  enabled: true
+  mapping: /graphiql
+  endpoint: /graphql_spring_boot_tutorial/graphql
